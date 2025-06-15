@@ -1,0 +1,178 @@
+body {
+    background: #090909;
+    color: white;
+}
+
+aside {
+    float: left;
+    background: #121212;
+    width: 12%;
+    padding: 1.5%;
+    height: 100vh;
+    color: white;
+    border-right: 2px solid white;
+    position: fixed;
+}
+
+aside img {
+    width: 80px;
+    float: left;
+}
+
+aside .logo {
+    font-size: 35px;
+    margin-left: 10px;
+    font-weight: bold;
+    position: relative;
+    top: 5px;
+}
+
+aside h3 {
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+aside ul {list-style: none}
+
+aside ul li {
+    color: white;
+    text-decoration: none
+    display: block;
+    margin-top: 20px;
+    margin-left: 10px;
+    transition: all .4s ease;
+    font-size: 16px;
+}
+
+aside ul a {
+    text-decoration: none;
+}
+
+aside ul li:hover, aside ul a:hover {
+    color: rgb(255,92,113);
+    transform: scale(1.1);
+}
+
+.form-error {
+    color: firebrick
+}
+
+main .features {
+    color: #fff;
+    text-align: center;
+}
+
+main .features h1 {font-size: 70px;}
+main .features h3 {max-width: 600px; margin: 30px auto;}
+main .features p {max-width: 400px; margin: 20px auto;}
+
+.mains {
+    float: left;
+    color: #fff;
+    margin-top: 40px;
+    text-align: center;
+    width: 75%;
+}
+
+.mains h1 {font-size: 70px;}
+.mains h3 {max-width: 600px; margin: 30px auto;}
+.mains p {max-width: 400px; margin: 20px auto;}
+
+.mains .btn-light {
+    height: 70px;
+    width: 160px;
+    font-weight: bold;
+    transition: all .4s ease
+}
+
+.mains .btn-light:hover {
+    transform: scale(1.2)
+}
+
+.alert-secondary {
+    clear: both;
+    margin: 50px 41.5%;
+    text-align: left;
+    width: 600px;
+}
+
+.alert-dark {
+    clear: both;
+    margin: 50px 40%;
+    text-align: left;
+    width: 600px;
+    color: black;
+}
+
+.btn-light {
+    transition: all .3s ease
+}
+
+.btn-light:hover {
+    transform: scale(1.05)
+}
+
+users .features {
+    float: center;
+    color: red;
+    margin-top: 10px;
+    width: 75%;
+    display: block;
+    text-align: center;
+}
+
+.form-error {
+    color: firebrick
+}
+
+.feat_to_reg {
+    display: block;
+    place-items: center;
+    font-size: 50px;
+}
+
+form a {
+    text-decoration: none;
+    color: #5cb85c;
+}
+
+
+.feat_to_delete .btn-danger {
+    height: 50px;
+    width: 110px;
+    margin-top: 20px;
+}
+
+.feat_to_delete .btn-light {
+    height: 50px;
+    width: 110px;
+    margin-top: -25px;
+}
+
+.feat_to_delete {
+    display: block;
+    margin: center;
+    margin-top: 250px;
+}
+
+.suc_button {
+    text-decoration: none
+}
+
+.suc_button {
+    text-align: right;
+    color: white;
+}
+
+.suc_button a {
+    color: white
+}
+
+.avatar-preview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+
+

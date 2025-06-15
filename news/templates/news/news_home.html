@@ -1,0 +1,35 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Заметки
+{% endblock %}
+
+{% block content %}
+    <div class="features">
+        {% if news %}
+            <h2>Заметки</h2>
+            {% for el in news %}
+                <div class="alert alert-secondary">
+                    <h1>{{ el.title }}</h1>
+                    <h5>{{ el.anounce }}</h5>
+                    <h6>{{ el.date }}</h6>
+                    <form method="post">
+                        {% csrf_token %}
+                        <span>{{ error }}</span>
+                        <div class="suc_button">
+                            <a href="{% url 'news-detail' el.id %}"><button class="btn btn-success">Открыть</a>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="feat_to_delete">
+                <h1>Записи отсутствуют</h1>
+                <h3>Создайте первую с помощью кнопки на боковой панели &#128526</h3>
+            </div>
+        {% endif %}
+
+
+    </div>
+
+{% endblock %}

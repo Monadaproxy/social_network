@@ -1,0 +1,46 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<div class="container mt-6">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Редактирование профиля</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Текущий аватар</label>
+                            <div>
+                                {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}"
+                                         class="rounded-circle mb-2"
+                                         width="100" height="100">
+                                {% else %}
+                                    <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                         style="width: 100px; height: 100px;">
+                                        <span class="text-white display-6">{{ user.username|first|upper }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <input type="file" class="form-control" name="avatar" accept="image/*" id="id_avatar">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_bio" class="form-label">Статус</label>
+                            <textarea class="form-control" id="id_bio" name="bio" rows="3" maxlength="60">{{ form.bio.value|default_if_none:'' }}</textarea>
+                            <div class="form-text">Максимум 60 символов</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <a href="{% url 'users:profile' user.username %}" class="btn btn-outline-secondary">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

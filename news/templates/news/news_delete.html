@@ -1,0 +1,22 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Удаление записи
+{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <div class="feat_to_delete">
+            <h2>Вы уверены что хотите удалить запись?</h2>
+            <form method="post">
+                {% csrf_token %}
+                <span>{{ error }}</span>
+                <button class="btn btn-danger" type="submit">Удалить</button><br><br><br>
+            </form>
+            <button class="btn btn-light" value="Previous page" onClick="javascript:history.go(-1);">Отмена</button>
+        </div>
+
+
+    </div>
+
+{% endblock %}

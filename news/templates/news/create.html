@@ -1,0 +1,25 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Добавление записи
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-secondary" style="margin-top: 0px; text-align: center;">
+
+        <h1>Добавление записи</h1>
+        <h4>Она появится в вашем профиле</h4>
+        <form method="post">
+            {% csrf_token %}<br>
+            {{ form.title }}<br>
+            {{ form.anounce }}<br>
+            {{ form.full_text }}<br>
+            {{ form.date }}<br>
+            <span>{{ error }}</span>
+            <button class="btn btn-success" type="submit" style="height: 45px; width: 200px; font-size: 18px; margin-top: -20px;">Добавить</button>
+        </form>
+
+
+    </div>
+
+{% endblock %}
