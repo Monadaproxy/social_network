@@ -6,17 +6,14 @@
 
 {% block content %}
     <div class="features">
-      <h1>{{ article.title }}</h1>
-      <h3>{{ article.anounce }}</h3>
-      <p>{{ article.full_text }}</p>
-      <p>{{ article.date }}</p>
-      <a href="{% url 'news_home' %}" class="btn btn-light">Вернуться</a>
-      <a href="{% url 'news-update' article.id %}" class="btn btn-light" style="color: black">Редактировать</a>
-      <a href="{% url 'news-delete' article.id %}" class="btn btn-danger">Удалить</a>
-
-
-
-
+        <div class="alert alert-secondary" style="margin-top: 0px;">
+          <h1 style="text-align: center;">{{ article.title }}</h1>
+          <h3>{{ article.anounce }}</h3>
+          <h4>{{ article.date }}</h4>
+          <a href="{% url 'users:profile' request.user.username %}" class="btn btn-light">Вернуться</a>
+          <a href="{% url 'news-update' article.id %}" class="btn btn-light">Редактировать</a>
+          <a href="{% url 'news-delete' article.id %}" class="btn btn-danger" style="float: right;">Удалить</a>
+        </div>
     </div>
 
 {% endblock %}

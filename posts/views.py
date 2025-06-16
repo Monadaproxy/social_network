@@ -5,7 +5,7 @@ from .forms import PostForm, CommentForm
 
 
 def post_list(request):
-    posts = Post.objects.filter(is_published=True).order_by('-created_at')
+    posts = Post.objects.all().order_by('-created_at')
     return render(request, 'posts/post_list.html', {'posts': posts})
 
 
@@ -24,8 +24,8 @@ def post_create(request):
 
 
 def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    comments = post.comments.all().order_by('created_at')
+    post = get_object_or_404(Post.objects.select_related('author__profile').prefetch_related('comments__author__profile'), pk=pk)
+    comments = post.comments.all().order_by('-created_at')
 
     if request.method == 'POST' and request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
@@ -34,7 +34,7 @@ def post_detail(request, pk):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('posts:post_detail', pk=post.pk)
     else:
         comment_form = CommentForm()
 

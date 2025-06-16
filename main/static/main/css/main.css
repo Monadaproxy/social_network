@@ -1,11 +1,11 @@
 body {
-    background: #090909;
+    background: #101010;
     color: white;
 }
 
 aside {
     float: left;
-    background: #121212;
+    background: #151515;
     width: 12%;
     padding: 1.5%;
     height: 100vh;
@@ -64,7 +64,7 @@ main .features {
 
 main .features h1 {font-size: 70px;}
 main .features h3 {max-width: 600px; margin: 30px auto;}
-main .features p {max-width: 400px; margin: 20px auto;}
+main .features p {max-width: 600px; margin: 20px auto;}
 
 .mains {
     float: left;
@@ -174,5 +174,12 @@ form a {
     object-fit: cover;
 }
 
+.hover-card {
+    transition: transform 0.3s
+}
+
+.hover-card:hover {
+    transform: translateY(-5px)
+}
 
 

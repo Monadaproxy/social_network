@@ -1,0 +1,50 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <div class="alert alert-secondary" style="margin-top: 0px; text-align: center;">
+            <div class="card-body">
+                {% for image in post.images.all %}
+                    <img src="{{ image.image.url }}" style="height: 400px; width: 500px; border: 1px solid black;">
+                {% endfor %}
+                <h2 class="card-title">{{ post.title }}</h2>
+                <h6 style="font-size: 18px;" class="card-text">{{ post.content }}</h6>
+                <h5>{{ post.created_at|date:"d.m.Y H:i" }}</h5>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="alert alert-secondary">
+                <form method="post" class="mb-4">
+                    <h4>Оставить комментарий:</h4>
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <h3 class="mt-4">Комментарии ({{ comments.count }})</h3>
+
+        {% for comment in comments %}
+            <div class="alert alert-secondary">
+                <div class="card-body">
+                    {% if comment.author.profile.avatar %}
+                        <img src="{{ comment.author.profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 2px solid white; float: left;" >
+                    {% endif %}
+                    <div class="hover-card">
+                        <a href="{% url 'users:profile' comment.author.username %}" style="text-decoration: none; color: black;"><h2 style="position: relative; right: -10px; top: 8px;">{{ comment.author.username }}</h2></a>
+                    </div>
+                    <h3 style="font-size: 25px;" class="card-text">{{ comment.text }}</h3>
+                    <h5 class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</h5>
+                </div>
+            </div>
+        {% empty %}
+            <p>Пока нет комментариев.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .models import Articles
 from .forms import ArticlesForm
 from .serializers import ArticlesSerializer
@@ -20,8 +20,10 @@ class NewsUpdateView(UpdateView):
 
 class NewsDeleteView(DeleteView):
     model = Articles
-    success_url = '/news/'
     template_name = 'news/news_delete.html'
+
+    def get_success_url(self):
+        return reverse('users:profile', kwargs={'username' : self.request.user.username})
 
 class ArticlesAPIView(generics.ListAPIView):
     queryset = Articles.objects.all()
@@ -41,7 +43,7 @@ def create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('news_home')
+            return redirect(reverse('users:profile', kwargs={'username': request.user.username}))
     else:
         form = ArticlesForm()
     return render(request, 'news/create.html', {'form': form})

@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    Профиль
+    {{ profile_user.username }}
 {% endblock %}
 
 
@@ -10,15 +10,15 @@
     <div class="features" style="color: black;">
         <div class="alert alert-secondary" style="margin-top: 0px; height: 200px;">
                 <div class="avatar-upload" style="text-align: center; place-items: center;">
-                    {% if user.profile.avatar %}
-                    <img src="{{ user.profile.avatar.url }}"
+                    {% if profile_user.profile.avatar %}
+                    <img src="{{ profile_user.profile.avatar.url }}"
                          class="avatar-preview" alt="Аватар" style="width: 160px; height: 160px; float: left;">
                     {% else %}
                         <p>*Аватар не установлен*</p>
                     {% endif %}
-                    <h2 style="color: black; float: center">{{ user.username }}</h2>
-                    {% if profile.bio %}
-                        <h4 style="text-align: left; position: relative; right: -10px;">{{ profile.bio }}</h4>
+                    <h2 style="color: black; float: center; font-size: 25px;">{{ profile_user.username }}</h2>
+                    {% if profile_user.profile.bio %}
+                        <h4 style="text-align: left; position: relative; right: -10px;">{{ profile_user.profile.bio }}</h4>
                     {% else %}
                             <h4 style="text-align: center; position: relative; right: -10px;">*Статус отсутствует*</h4>
                     {% endif %}
@@ -26,35 +26,39 @@
         </div>
         <div class="features">
         {% if news %}
-            <h2 style="background: rgb(235, 235, 235); color: black; font-size: 35px;">Записи</h2>
-            {% for el in news %}
-                <div class="alert alert-secondary">
-                    {% with profile=user.profile %}
-                        {% if profile.avatar %}
-                            <img src="{{ profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 2px solid white; float: left;" alt="Лого">
-                        {% endif %}
-                    {% endwith %}
-                    <h2 style="position: relative; right: -10px; top: 8px;">{{ user.username }}</h2>
-                    <h2 style="margin-top: 25px;">{{ el.title }}</h2>
-                    <h5>{{ el.anounce }}</h5>
-                    <small>{{ el.date }}</small>
-                    <form method="post">
-                        {% csrf_token %}
-                        <span>{{ error }}</span>
-                        {% if is_owner %}
-                            <div class="suc_button">
-                                <a href="{% url 'news-detail' el.id %}"><button class="btn btn-success">Открыть</a>
-                            </div>
-                        {% endif %}
-                    </form>
-                </div>
+            <div class="alert alert-secondary" style="place-items: center;">
+                <h2 style="color: black;">Записи {{ profile_user.username }}</h2>
+                {% for el in news %}
+                    <div class="alert alert-secondary" style="background: rgb(235, 235, 235)">
+                        {% with profile=profile_user.profile %}
+                            {% if profile.avatar %}
+                                <img src="{{ profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 2px solid white; float: left;" alt="Лого">
+                            {% endif %}
+                        {% endwith %}
+                        <h2 style="position: relative; right: -10px; top: 8px;">{{ profile_user.username }}</h2>
+                        <h2 style="margin-top: 25px;">{{ el.title }}</h2>
+                        <h5>{{ el.anounce }}</h5>
+                        <small>{{ el.date }}</small>
+                        <form method="post">
+                            {% csrf_token %}
+                            <span>{{ error }}</span>
+                            {% if is_owner %}
+                                <div class="suc_button">
+                                    <a href="{% url 'news-detail' el.id %}"><button class="btn btn-success">Открыть</a>
+                                </div>
+                            {% endif %}
+                        </form>
+                    </div>
             {% endfor %}
+            </div>
         {% else %}
             {% if is_owner %}
                 <div class="feat_to_delete">
                     <h1>Записи отсутствуют</h1>
                     <h3>Создайте первую с помощью кнопки на боковой панели &#128526</h3>
                 </div>
+            {% else %}
+                <p style="font-size: 35px; margin-top: 250px;">Здесь пусто...</p>
             {% endif %}
         {% endif %}
         {% if is_owner %}

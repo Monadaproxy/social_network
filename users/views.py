@@ -50,6 +50,7 @@ def profile_view(request, username):
         profile = request.user.profile
     is_owner = request.user == user
     news = Articles.objects.filter(author=user)
+    news = news.order_by('-date')
     context = {
         'profile_user': user,
         'profile': profile,
