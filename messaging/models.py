@@ -8,6 +8,9 @@ class Conversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_other_participant(self, current_user):
+        return self.participants.exclude(id=current_user.id).fisrt()
+
     class Meta:
         ordering = ['-updated_at']
 

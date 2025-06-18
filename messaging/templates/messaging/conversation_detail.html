@@ -1,0 +1,35 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Диалог с {{ other_user.username }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="features">
+        <h1>Диалог с {{ other_user.username }}</h1>
+
+        <div class="alert alert-secondary" style="max-height: 800px; overflow-y: auto; overflow-x: hidden;">
+            {% for message in messages %}
+            {% if message.sender != request.user %}
+                <img src="{{ message.sender.profile.avatar.url }}" style="float: left; width: 50px; height: 50px; border-radius: 50%; border: 1px solid black; position: relative; top: 70px;">
+            {% endif %}
+                <div class="alert alert-secondary {% if message.sender == request.user %}bg-primary{% else %}bg-light{% endif %}" style="width: 250px; {% if message.sender == request.user %}float: left; color: white;{% else %}position: relative; left: -150px;{% endif %}">
+                    <div class="card-body">
+                        <h5 style="word-wrap: break-word; width: 200px;" class="card-text">{{ message.text }}</h5>
+                        <p class="card-text">
+                            {{ message.sender.username }} | {{ message.timestamp|date:"d.m.Y H:i" }}
+                        </p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Начните беседу!</p>
+            {% endfor %}
+            <form method="post" style="float: right;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary" style="float: right;">Отправить</button>
+        </form>
+        </div>
+    </div>
+{% endblock %}

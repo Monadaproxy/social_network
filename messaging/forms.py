@@ -8,3 +8,6 @@ class MessageForm(forms.ModelForm):
         widgets = {
             'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Напишите сообщение...'}),
         }
+        labels = {
+            'text': ''
+        }

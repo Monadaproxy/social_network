@@ -23,6 +23,9 @@
                             <h4 style="text-align: center; position: relative; right: -10px;">*Статус отсутствует*</h4>
                     {% endif %}
                 </div>
+            {% if not is_owner %}
+                <a href="{% url 'messaging:start_conversation' profile_user.id %}"><button class="btn btn-dark" style="float: right; height: 40px; width: 150px;">Диалог</button></a>
+            {% endif %}
         </div>
         <div class="features">
         {% if news %}
@@ -32,7 +35,7 @@
                     <div class="alert alert-secondary" style="background: rgb(235, 235, 235)">
                         {% with profile=profile_user.profile %}
                             {% if profile.avatar %}
-                                <img src="{{ profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 2px solid white; float: left;" alt="Лого">
+                                <img src="{{ profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 1px solid black; float: left;" alt="Лого">
                             {% endif %}
                         {% endwith %}
                         <h2 style="position: relative; right: -10px; top: 8px;">{{ profile_user.username }}</h2>

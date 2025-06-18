@@ -1,0 +1,37 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Диалоги
+{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Мои диалоги</h1>
+
+        {% for conversation in conversations %}
+            {% with other_user=conversation.get_other_participant.user %}
+                <div class="alert alert-secondary">
+                    <div class="card-body">
+                        <img src="{{ conversation.other_user.profile.avatar.url }}" style="float: left; height: 60px; width: 60px; border-radius: 50%; border: 1px solid black;">
+                        <h2 class="card-title" style="position: relative; right: -10px; top: 8px;">{{ conversation.other_user.username }}</h2>
+                        <div class="alert alert-secondary" style="position: relative; left: -252px; background: white;">
+                            {% with last_message=conversation.messages.last %}
+                                {% if last_message %}
+                                    <h4>{{ last_message.sender.username }}:<p>{{ last_message.text|truncatewords:10 }}</p></h4>
+                                    <p>{{ last_message.timestamp }}</p>
+                                {% else %}
+                                    Начните беседу!
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <a href="{% url 'messaging:conversation_detail' conversation.pk %}" class="btn btn-sm btn-outline-primary" style="width: 220px; height: 40px; font-size: 17px;">
+                            Перейти к диалогу
+                        </a>
+                    </div>
+                </div>
+            {% endwith %}
+        {% empty %}
+            <p>У вас пока нет диалогов.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

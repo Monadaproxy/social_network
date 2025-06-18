@@ -2,12 +2,22 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Conversation
 from .forms import MessageForm
-from users.models import User
+from users.models import User, Profile
+from django.db.models import Subquery, OuterRef
+from django.db.models.functions import Coalesce
 
 
 @login_required
 def conversation_list(request):
     conversations = Conversation.objects.filter(participants=request.user).order_by('-updated_at')
+
+    def get_other_user(conversation):
+        return conversation.participants.exclude(id=request.user.id).first()
+
+    for conv in conversations:
+        conv.other_user = get_other_user(conv)
+        conv.last_message = conv.messages.order_by('-timestamp').first()
+
     return render(request, 'messaging/conversation_list.html', {'conversations': conversations})
 
 
@@ -26,8 +36,8 @@ def conversation_detail(request, pk):
             message.conversation = conversation
             message.sender = request.user
             message.save()
-            conversation.save()  # Обновляем updated_at
-            return redirect('conversation_detail', pk=pk)
+            conversation.save()
+            return redirect('messaging:conversation_detail', pk=pk)
     else:
         form = MessageForm()
 
@@ -56,4 +66,4 @@ def start_conversation(request, user_id):
         conversation.participants.add(request.user, other_user)
         conversation.save()
 
-    return redirect('conversation_detail', pk=conversation.pk)
+    return redirect('messaging:conversation_detail', pk=conversation.pk)
