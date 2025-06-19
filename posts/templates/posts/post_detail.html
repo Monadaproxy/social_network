@@ -34,7 +34,7 @@
             <div class="alert alert-secondary">
                 <div class="card-body">
                     {% if comment.author.profile.avatar %}
-                        <img src="{{ comment.author.profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 2px solid white; float: left;" >
+                        <img src="{{ comment.author.profile.avatar.url }}" style="height: 60px; width: 60px; border-radius: 50%; border: 1px solid black; float: left;" >
                     {% endif %}
                     <div class="hover-card">
                         <a href="{% url 'users:profile' comment.author.username %}" style="text-decoration: none; color: black;"><h2 style="position: relative; right: -10px; top: 8px;">{{ comment.author.username }}</h2></a>

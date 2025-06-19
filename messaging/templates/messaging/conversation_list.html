@@ -13,7 +13,7 @@
                 <div class="alert alert-secondary">
                     <div class="card-body">
                         <img src="{{ conversation.other_user.profile.avatar.url }}" style="float: left; height: 60px; width: 60px; border-radius: 50%; border: 1px solid black;">
-                        <h2 class="card-title" style="position: relative; right: -10px; top: 8px;">{{ conversation.other_user.username }}</h2>
+                        <a href="{% url 'users:profile' conversation.other_user.username %}" style="text-decoration: none;"><h2 class="hover-card" style="text-decoration: none; color: black; position: relative; right: -10px; top: 8px;">{{ conversation.other_user.username }}</h2></a>
                         <div class="alert alert-secondary" style="position: relative; left: -252px; background: white;">
                             {% with last_message=conversation.messages.last %}
                                 {% if last_message %}

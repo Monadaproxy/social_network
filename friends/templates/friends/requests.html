@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<div class="features">
+    <h2>Запросы в друзья</h2>
+
+    {% for request in received_requests %}
+    <div class="alert alert-secondary">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="{{ request.from_user.profile.avatar.url }}"
+                     class="rounded-circle me-3"
+                     width="50"
+                     height="50"
+                     alt="{{ request.from_user.username }}">
+                <h5 class="card-title mb-0">{{ request.from_user.username }}</h5>
+            </div>
+
+            <form method="post" action="{% url 'friends:handle_friend_request' request.id %}">
+                {% csrf_token %}
+                <button type="submit" name="action" value="accept" class="btn btn-success me-2">
+                    Принять
+                </button>
+                <button type="submit" name="action" value="reject" class="btn btn-outline-secondary">
+                    Отклонить
+                </button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-secondary">
+        У вас нет новых запросов в друзья
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
