@@ -35,6 +35,12 @@
                             <div class="form-text">Максимум 60 символов</div>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="id_city" class="form-label">Город</label>
+                            <textarea class="form-control" id="id_city" name="city" rows="3" maxlength="60">{{ form.city.value|default_if_none:'' }}</textarea>
+                            <div class="form-text">Максимум 20 символов</div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Сохранить</button>
                         <a href="{% url 'users:profile' user.username %}" class="btn btn-outline-secondary">Отмена</a>
                     </form>

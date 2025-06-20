@@ -20,29 +20,31 @@
                     {% if profile_user.profile.bio %}
                         <h4 style="text-align: left; position: relative; right: -10px;">{{ profile_user.profile.bio }}</h4>
                     {% else %}
-                            <h4 style="text-align: center; position: relative; right: -10px;">*Статус отсутствует*</h4>
+                        <h4 style="text-align: center; position: relative; right: -10px;">*Статус отсутствует*</h4>
+                    {% endif %}
+                    <h6 style="float: left; position: relative; right: -10px;">Город : {{ profile_user.profile.city }}</h6>
+
+                    {% if not is_owner %}
+                        <a href="{% url 'messaging:start_conversation' profile_user.id %}"><button class="btn btn-dark" style="float: right; position: relative; right: -100px; top: 15px; height: 40px; width: 150px;">Диалог</button></a>
+                    {% endif %}
+                    {% if not is_owner %}
+                        {% if not friendship_status.request_sent and not friendship_status.request_received and not friendship_status.is_friend %}
+                            <a href="{% url 'friends:send_friend_request' profile_user.id %}" class="btn btn-primary" style="position: relative; right: -15px;">
+                                Добавить в друзья
+                            </a>
+                        {% elif friendship_status.request_sent and not friendship_status.request_received and not friendship_status.is_friend %}
+                            <p style="float: left; position: relative; right: -15px;">
+                                (Запрос на дружбу отправлен)
+                            </p>
+                        {% elif friendship_status.request_received and not friendship_status.request_sent and not friendship_status.is_friend %}
+                            <a href="{% url 'friends:friendship_requests' %}" class="btn btn-info" style="float: left; position: relative; right: -15px;">
+                                Ответить на запрос
+                            </a>
+                        {% elif friendship_status.is_friend %}
+                            <span class="badge bg-success" style="float: left; position: relative; right: -10px;">У вас в друзьях</span>
+                        {% endif %}
                     {% endif %}
                 </div>
-            {% if not is_owner %}
-                <a href="{% url 'messaging:start_conversation' profile_user.id %}"><button class="btn btn-dark" style="float: right; height: 40px; width: 150px;">Диалог</button></a>
-            {% endif %}
-            {% if not is_owner %}
-                {% if not friendship_status.request_sent and not friendship_status.request_received and not friendship_status.is_friend %}
-                    <a href="{% url 'friends:send_friend_request' profile_user.id %}" class="btn btn-primary" style="position: relative; right: -15px;">
-                        Добавить в друзья
-                    </a>
-                {% elif friendship_status.request_sent and not friendship_status.request_received and not friendship_status.is_friend %}
-                    <p style="position: relative; right: -15px;">
-                        (Запрос на дружбу отправлен)
-                    </p>
-                {% elif friendship_status.request_received and not friendship_status.request_sent and not friendship_status.is_friend %}
-                    <a href="{% url 'friends:friendship_requests' %}" class="btn btn-info" style="position: relative; right: -15px;">
-                        Ответить на запрос
-                    </a>
-                {% elif friendship_status.is_friend %}
-                    <span class="badge bg-success" style="position: relative; right: -15px;">У вас в друзьях</span>
-                {% endif %}
-            {% endif %}
         </div>
         <div class="features">
         {% if news %}

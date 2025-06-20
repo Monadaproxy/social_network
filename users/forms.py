@@ -34,12 +34,17 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['avatar', 'bio']
+        fields = ['avatar', 'bio', 'city']
         widgets = {
             'bio': forms.Textarea(attrs={
                 'rows': 3,
                 'maxlength': 60,
                 'placeholder': 'Ваш статус (макс. 60 символов)'
+            }),
+            'city': forms.Textarea(attrs={
+                'rows': 3,
+                'maxlength': 20,
+                'placeholder': 'Введите город на английском языке'
             }),
         }
 

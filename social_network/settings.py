@@ -62,9 +62,9 @@ WSGI_APPLICATION = 'social_network.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'animeratebase',
-        'USER': 'pganimerate',
-        'PASSWORD': 'intothegray',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -104,5 +104,7 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from .weatherapi import get_city_weather
+
 
 def index_index(request):
-    return render(request, 'main/index_index.html')
+    data = get_city_weather(request.user)
+    if not isinstance(data, dict):
+        return render(request, 'main/index.html', {'weather_exception': data})
+    return render(request, 'main/index.html', {'data': data})
 
-def about_about(request):
-    return render(request, 'main/about_about.html')
