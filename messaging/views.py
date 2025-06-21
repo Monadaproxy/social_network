@@ -1,10 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Conversation
+from .models import Message, Conversation
 from .forms import MessageForm
 from users.models import User, Profile
-from django.db.models import Subquery, OuterRef
-from django.db.models.functions import Coalesce
 
 
 @login_required
@@ -28,6 +26,11 @@ def conversation_detail(request, pk):
         pk=pk
     )
     messages = conversation.messages.all().order_by('timestamp')
+
+    Message.objects.filter(
+        conversation=conversation,
+        is_read=False
+    ).exclude(sender=request.user).update(is_read=True)
 
     if request.method == 'POST':
         form = MessageForm(request.POST)

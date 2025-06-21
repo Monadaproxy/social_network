@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'messaging',
     'news',
     'friends',
+    'channels',
     'users.apps.UsersConfig',
     'rest_framework',
     'django.contrib.admin',
@@ -86,7 +87,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
+        "CONFIG": {
+            "host": "amqp://guest:guest@localhost:5672/",
+        },
+    },
+}
 
 LANGUAGE_CODE = 'ru-RU'
 

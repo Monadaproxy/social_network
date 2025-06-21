@@ -29,11 +29,20 @@
             <a href="{% url 'posts:post_list' %}"><li><i class="fas fa-window-maximize"></i>НОВОСТИ</li></a>
             <a href="{% url 'users:profile' user.username %}"><li><i class="fas fa-user-circle"></i>ПРОФИЛЬ</li></a>
             <a href="{% url 'friends:friend_list' %}"><li><i class="fa fa-users"></i>ДРУЗЬЯ{% if pending_requests_count %}<span class="badge bg-danger rounded-pill" style="position: relative; right: -15px;">{{ pending_requests_count }}</span>{% endif %}</li></a>
-            <a href="{% url 'messaging:conversation_list' %}"><li><i class="fa fa-comments"></i>СООБЩЕНИЯ</li></a>
+            <a href="{% url 'messaging:conversation_list' %}"><li><i class="fa fa-comments"></i>СООБЩЕНИЯ{% if request.user.unread_messages %}<span class="badge bg-danger rounded-pill" style="position: relative; right: -15px;">{{ request.user.unread_messages }}</span>{% endif %}</li></a>
             <a href="{% url 'users:login' %}"><li><i class="fas fa-door-open"></i>ВЫЙТИ</li></a>
             <a href="{% url 'create' %}"><li><button class="btn btn-dark"><i class="fas fa-plus-circle"></i>ДОБАВИТЬ ЗАПИСЬ</li></a>
         </ul>
     </aside>
+
+                <script>
+                    const ws = new WebSocket(`ws://${window.location.host}/ws/notifications/`);
+                    ws.onmessage = (e) => {
+                        const data = JSON.parse(e.data);
+                        document.getElementById("unread-count").textContent = data.unread_count;
+                        if (data.message) alert(data.message);
+                    };
+                </script>
 
     <main>
 
