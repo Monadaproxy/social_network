@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Message, Conversation
 from .forms import MessageForm
 from users.models import User, Profile
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 @login_required
@@ -39,8 +41,19 @@ def conversation_detail(request, pk):
             message.conversation = conversation
             message.sender = request.user
             message.save()
-            conversation.save()
-            return redirect('messaging:conversation_detail', pk=pk)
+
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'chat_{pk}',
+                {
+                    'type': 'chat_message',
+                    'message': message.text,
+                    'sender': request.user.username
+                }
+            )
+
+
+
     else:
         form = MessageForm()
 
@@ -50,8 +63,12 @@ def conversation_detail(request, pk):
         'conversation': conversation,
         'messages': messages,
         'form': form,
-        'other_user': other_user
+        'other_user': other_user,
+        'ws_url': f"ws://{request.get_host()}/ws/conversation/{conversation.id}/"
     })
+
+
+
 
 
 @login_required

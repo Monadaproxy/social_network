@@ -9,7 +9,7 @@
     <div class="features">
         <h1>Диалог с {{ other_user.username }}</h1>
 
-        <div class="alert alert-secondary" style="max-height: 800px; overflow-y: auto; overflow-x: hidden;">
+        <div id="messages" class="alert alert-secondary" style="max-height: 800px; overflow-y: auto; overflow-x: hidden;">
             {% for message in messages %}
             {% if message.sender != request.user %}
                 <img src="{{ message.sender.profile.avatar.url }}" style="float: left; width: 50px; height: 50px; border-radius: 50%; border: 1px solid black; position: relative; top: 70px;">
@@ -25,11 +25,45 @@
             {% empty %}
                 <p>Начните беседу!</p>
             {% endfor %}
-            <form method="post" style="float: right;">
+            <form id="message-form" action="{% url 'messaging:conversation_detail' pk=conversation.id %}" method="post" style="float: right;">
             {% csrf_token %}
-            {{ form.as_p }}
+            <input type="text" id="message-text" name="text" required>
             <button type="submit" class="btn btn-primary" style="float: right;">Отправить</button>
         </form>
         </div>
     </div>
+
+    <script>
+        const chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/room1/`
+        );
+
+        // Добавьте обработчики для всех событий WebSocket
+        chatSocket.onopen = () => {
+            console.log('WebSocket connected');
+        };
+
+        chatSocket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        chatSocket.onmessage = (e) => {
+            console.log('Received message:', e.data);
+            try {
+                const data = JSON.parse(e.data);
+                if (data.type === 'chat') {
+                    const messages = document.getElementById('messages');
+                    messages.innerHTML += `
+                        <div class="message">
+                            <strong>${data.sender}</strong>: ${data.message}
+                            <small>${new Date(data.timestamp).toLocaleTimeString()}</small>
+                        </div>
+                    `;
+                    messages.scrollTop = messages.scrollHeight;
+                }
+            } catch (err) {
+                console.error('Error parsing message:', err);
+            }
+        };
+    </script>
 {% endblock %}

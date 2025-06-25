@@ -16,10 +16,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main',
     'posts',
-    'messaging',
     'news',
     'friends',
     'channels',
+    'daphne',
+    'messaging.apps.MessagingConfig',
     'users.apps.UsersConfig',
     'rest_framework',
     'django.contrib.admin',
@@ -58,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'social_network.wsgi.application'
+ASGI_APPLICATION = 'social_network.asgi.application'
 
 DATABASES = {
     'default': {
@@ -108,9 +109,10 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'users:login'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
