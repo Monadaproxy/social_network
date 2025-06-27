@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -54,6 +54,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'friends.context_processors.friendship_requests',
+                'messaging.context_processors.unread_messages',
             ],
         },
     },
@@ -67,7 +68,7 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME'),
         'USER': os.getenv('DATABASE_USER'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
@@ -92,7 +93,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
         "CONFIG": {
-            "host": "amqp://guest:guest@localhost:5672/",
+            "host": "amqp://guest:guest@rabbitmq:5672/%2F",
         },
     },
 }
@@ -109,10 +110,11 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'users:login'
 
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')

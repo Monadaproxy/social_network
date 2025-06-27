@@ -65,5 +65,10 @@
                 console.error('Error parsing message:', err);
             }
         };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const chat = document.getElementById('messages');
+            chat.scrollTop = chat.scrollHeight;
+        });
     </script>
 {% endblock %}

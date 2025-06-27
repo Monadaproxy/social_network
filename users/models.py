@@ -6,7 +6,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     bio = models.TextField(max_length=60, blank=True, null=True)
-    city = models.CharField(default='Moscow')
+    city = models.CharField(default='Moscow', max_length=30)
 
     def __str__(self):
         return f'{self.user.username} Profile'

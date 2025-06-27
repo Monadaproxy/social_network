@@ -41,6 +41,7 @@ def conversation_detail(request, pk):
             message.conversation = conversation
             message.sender = request.user
             message.save()
+            conversation.save()
 
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
@@ -51,7 +52,6 @@ def conversation_detail(request, pk):
                     'sender': request.user.username
                 }
             )
-
 
 
     else:
